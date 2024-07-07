@@ -11,6 +11,7 @@ document.getElementById('addon-form').addEventListener('submit', function(event)
         const itemName = itemElement.querySelector(`[id=itemName${index + 1}]`).value;
         const itemDescription = itemElement.querySelector(`[id=itemDescription${index + 1}]`).value;
         const itemId = itemElement.querySelector(`[id=itemId${index + 1}]`).value;
+        const itemTextureFile = itemElement.querySelector(`[id=itemTexture${index + 1}]`).files[0];
 
         items.push({
             "format_version": "1.10",
@@ -25,7 +26,8 @@ document.getElementById('addon-form').addEventListener('submit', function(event)
                     "minecraft:display_name": itemName,
                     "minecraft:tooltip": itemDescription
                 }
-            }
+            },
+            "textureFile": itemTextureFile  // テクスチャファイルの追加
         });
     });
 
@@ -75,6 +77,9 @@ SOFTWARE.`;
     zip.file("manifest.json", JSON.stringify(manifest, null, 4));
     items.forEach((item, index) => {
         zip.file(`items${index + 1}.json`, JSON.stringify(item, null, 4));
+        if (item.textureFile) {
+            zip.file(`texture${index + 1}.${item.textureFile.name.split('.').pop()}`, item.textureFile);
+        }
     });
     zip.file("LICENSE.txt", licenseText);
 
@@ -103,10 +108,15 @@ document.getElementById('addItem').addEventListener('click', function() {
     newItem.innerHTML = `
         <label for="itemName${itemCount}">アイテム名:</label>
         <input type="text" id="itemName${itemCount}" name="itemName" required><br>
+
         <label for="itemDescription${itemCount}">アイテムの説明:</label>
         <input type="text" id="itemDescription${itemCount}" name="itemDescription" required><br>
+
         <label for="itemId${itemCount}">アイテムID:</label>
         <input type="text" id="itemId${itemCount}" name="itemId" required><br>
+
+        <label for="itemTexture${itemCount}">テクスチャファイル:</label>
+        <input type="file" id="itemTexture${itemCount}" name="itemTexture" accept=".png, .jpg, .jpeg" required><br>
     `;
     itemsContainer.appendChild(newItem);
 });
