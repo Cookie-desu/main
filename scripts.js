@@ -1,6 +1,16 @@
 // scripts.js
 
-document.getElementById('addon-form').addEventListener('submit', function(event) {
+document.getElementById('itemAddonBtn').addEventListener('click', function() {
+    document.getElementById('item-addon-form').style.display = 'block';
+    document.getElementById('sound-addon-form').style.display = 'none';
+});
+
+document.getElementById('soundAddonBtn').addEventListener('click', function() {
+    document.getElementById('item-addon-form').style.display = 'none';
+    document.getElementById('sound-addon-form').style.display = 'block';
+});
+
+document.getElementById('item-addon-form').addEventListener('submit', function(event) {
     event.preventDefault();
 
     const addonName = document.getElementById('addonName').value;
@@ -79,7 +89,7 @@ SOFTWARE.`;
     items.forEach((item, index) => {
         zip.file(`items${index + 1}.json`, JSON.stringify(item, null, 4));
         if (item.textureFile) {
-            zip.file(`texture${index + 1}.${item.textureFile.name.split('.').pop()}`, item.textureFile);
+            zip.file(`textures/${item.textureFile.name}`, item.textureFile);
         }
     });
     zip.file("LICENSE.txt", licenseText);
@@ -98,6 +108,89 @@ SOFTWARE.`;
     });
 
     document.getElementById('jsonOutput').textContent = JSON.stringify(items, null, 4);
+});
+
+document.getElementById('sound-addon-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const addonName = document.getElementById('soundAddonName').value;
+
+    const sounds = [];
+    const soundElements = document.querySelectorAll('.sound');
+    soundElements.forEach((soundElement, index) => {
+        const soundId = soundElement.querySelector(`[id=soundId${index + 1}]`).value;
+        const soundFile = soundElement.querySelector(`[id=soundFile${index + 1}]`).files[0];
+
+        sounds.push({
+            "sound_id": soundId,
+            "soundFile": soundFile
+        });
+    });
+
+    const addonDescription = `${addonName} - Made With Cookie Minecraft Addon maker`;
+
+    const manifest = {
+        "format_version": 2,
+        "header": {
+            "description": addonDescription,
+            "name": addonName,
+            "uuid": generateUUID(),
+            "version": [1, 0, 0],
+            "min_engine_version": [1, 17, 0]  // 最小のMinecraftエンジンバージョンを指定
+        },
+        "modules": [
+            {
+                "description": addonDescription,
+                "type": "resources",
+                "uuid": generateUUID(),
+                "version": [1, 0, 0]
+            }
+        ]
+    };
+
+    const licenseText = `MIT License
+
+Copyright (c) 2024 ${addonName}
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.`;
+
+    const zip = new JSZip();
+    zip.file("manifest.json", JSON.stringify(manifest, null, 4));
+    sounds.forEach((sound, index) => {
+        zip.file(`sounds/${sound.soundFile.name}`, sound.soundFile);
+    });
+    zip.file("LICENSE.txt", licenseText);
+
+    zip.generateAsync({ type: "blob" }).then(function(content) {
+        const downloadBtn = document.getElementById('downloadBtn');
+        downloadBtn.style.display = 'block';
+        downloadBtn.onclick = function() {
+            const element = document.createElement('a');
+            element.href = URL.createObjectURL(content);
+            element.download = `${addonName}.mcpack`;
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        };
+    });
+
+    document.getElementById('jsonOutput').textContent = JSON.stringify(sounds, null, 4);
 });
 
 document.getElementById('addItem').addEventListener('click', function() {
@@ -120,6 +213,22 @@ document.getElementById('addItem').addEventListener('click', function() {
         <input type="file" id="itemTexture${itemCount}" name="itemTexture" accept=".png, .jpg, .jpeg" required><br>
     `;
     itemsContainer.appendChild(newItem);
+});
+
+document.getElementById('addSound').addEventListener('click', function() {
+    const soundsContainer = document.getElementById('sounds-container');
+    const soundCount = soundsContainer.getElementsByClassName('sound').length + 1;
+
+    const newSound = document.createElement('div');
+    newSound.className = 'sound';
+    newSound.innerHTML = `
+        <label for="soundId${soundCount}">音のID:</label>
+        <input type="text" id="soundId${soundCount}" name="soundId" required><br>
+
+        <label for="soundFile${soundCount}">音ファイル:</label>
+        <input type="file" id="soundFile${soundCount}" name="soundFile" accept=".mp3, .wav" required><br>
+    `;
+    soundsContainer.appendChild(newSound);
 });
 
 function generateUUID() {
