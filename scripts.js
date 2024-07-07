@@ -39,7 +39,8 @@ document.getElementById('addon-form').addEventListener('submit', function(event)
             "description": addonDescription,
             "name": addonName,
             "uuid": generateUUID(),
-            "version": [1, 0, 0]
+            "version": [1, 0, 0],
+            "min_engine_version": [1, 17, 0]  // 最小のMinecraftエンジンバージョンを指定
         },
         "modules": [
             {
