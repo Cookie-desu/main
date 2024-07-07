@@ -2,17 +2,20 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/png" sizes="16x16"  href="favicon-16x16.png">
-　　<meta name="msapplication-TileColor" content="#ffffff">
-　　<meta name="theme-color" content="#ffffff">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minecraft Addon Creator</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="theme-color" content="#ffffff">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
 </head>
 <body>
     <h1>Minecraft Addon Creator</h1>
-    <form id="addon-form">
+    <button id="itemAddonBtn">アイテム追加パック</button>
+    <button id="soundAddonBtn">音追加パック</button>
+
+    <form id="item-addon-form" style="display:none;">
         <label for="addonName">アドオン名:</label>
         <input type="text" id="addonName" name="addonName" required><br>
 
@@ -33,6 +36,24 @@
         </div>
 
         <button type="button" id="addItem">アイテムを追加</button>
+        <button type="submit">生成</button>
+    </form>
+
+    <form id="sound-addon-form" style="display:none;">
+        <label for="soundAddonName">アドオン名:</label>
+        <input type="text" id="soundAddonName" name="soundAddonName" required><br>
+
+        <div id="sounds-container">
+            <div class="sound">
+                <label for="soundId1">音のID:</label>
+                <input type="text" id="soundId1" name="soundId" required><br>
+
+                <label for="soundFile1">音ファイル:</label>
+                <input type="file" id="soundFile1" name="soundFile" accept=".mp3, .wav" required><br>
+            </div>
+        </div>
+
+        <button type="button" id="addSound">音を追加</button>
         <button type="submit">生成</button>
     </form>
 
