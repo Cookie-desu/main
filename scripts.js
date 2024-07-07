@@ -148,6 +148,22 @@ document.getElementById('sound-addon-form').addEventListener('submit', function(
         ]
     };
 
+    const soundsJson = {
+        "format_version": "1.8.0",
+        "sound_definitions": {}
+    };
+
+    sounds.forEach(sound => {
+        soundsJson.sound_definitions[sound.sound_id] = {
+            "category": "record",
+            "sounds": [
+                {
+                    "name": `sounds/${sound.soundFile.name}`
+                }
+            ]
+        };
+    });
+
     const licenseText = `MIT License
 
 Copyright (c) 2024 ${addonName}
@@ -172,7 +188,8 @@ SOFTWARE.`;
 
     const zip = new JSZip();
     zip.file("manifest.json", JSON.stringify(manifest, null, 4));
-    sounds.forEach((sound, index) => {
+    zip.file("sounds.json", JSON.stringify(soundsJson, null, 4));
+    sounds.forEach(sound => {
         zip.file(`sounds/${sound.soundFile.name}`, sound.soundFile);
     });
     zip.file("LICENSE.txt", licenseText);
@@ -190,7 +207,7 @@ SOFTWARE.`;
         };
     });
 
-    document.getElementById('jsonOutput').textContent = JSON.stringify(sounds, null, 4);
+    document.getElementById('jsonOutput').textContent = JSON.stringify(soundsJson, null, 4);
 });
 
 document.getElementById('addItem').addEventListener('click', function() {
