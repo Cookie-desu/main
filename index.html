@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Addon Creator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+</head>
+<body>
+    <h1>Minecraft Addon Creator - Made By くっきい🍪</h1>
+    <form id="addon-form">
+        <label for="addonName">アドオン名:</label>
+        <input type="text" id="addonName" name="addonName" required><br>
+
+        <div id="items-container">
+            <div class="item">
+                <label for="itemName1">アイテム名:</label>
+                <input type="text" id="itemName1" name="itemName" required><br>
+
+                <label for="itemDescription1">アイテムの説明:</label>
+                <input type="text" id="itemDescription1" name="itemDescription" required><br>
+
+                <label for="itemId1">アイテムID:</label>
+                <input type="text" id="itemId1" name="itemId" required><br>
+            </div>
+        </div>
+
+        <button type="button" id="addItem">アイテムを追加</button>
+        <button type="submit">生成</button>
+    </form>
+
+    <h2>生成されたJSON:</h2>
+    <pre id="jsonOutput"></pre>
+
+    <button id="downloadBtn" style="display: none;">ダウンロード</button>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
