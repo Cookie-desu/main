@@ -3,65 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minecraft Addon Creator</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="theme-color" content="#ffffff">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+    <title>BANLIST</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .tag {
+            font-weight: bold;
+            color: #ffffff;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        .discord {
+            background-color: #7289da;
+        }
+        .minecraft {
+            background-color: #34c759;
+        }
+        .common {
+            background-color: #ffcc00;
+        }
+    </style>
 </head>
 <body>
-    <h1>Minecraft Addon Creator</h1>
-    <button id="itemAddonBtn">アイテム追加パック</button>
-    <button id="soundAddonBtn">音追加パック</button>
-
-    <form id="item-addon-form" style="display:none;">
-        <label for="addonName">アドオン名:</label>
-        <input type="text" id="addonName" name="addonName" required><br>
-
-        <div id="items-container">
-            <div class="item">
-                <label for="itemName1">アイテム名:</label>
-                <input type="text" id="itemName1" name="itemName" required><br>
-
-                <label for="itemDescription1">アイテムの説明:</label>
-                <input type="text" id="itemDescription1" name="itemDescription" required><br>
-
-                <label for="itemId1">アイテムID:</label>
-                <input type="text" id="itemId1" name="itemId" required><br>
-
-                <label for="itemTexture1">テクスチャファイル:</label>
-                <input type="file" id="itemTexture1" name="itemTexture" accept=".png, .jpg, .jpeg" required><br>
-            </div>
-        </div>
-
-        <button type="button" id="addItem">アイテムを追加</button>
-        <button type="submit">生成</button>
-    </form>
-
-    <form id="sound-addon-form" style="display:none;">
-        <label for="soundAddonName">アドオン名:</label>
-        <input type="text" id="soundAddonName" name="soundAddonName" required><br>
-
-        <div id="sounds-container">
-            <div class="sound">
-                <label for="soundId1">音のID:</label>
-                <input type="text" id="soundId1" name="soundId" required><br>
-
-                <label for="soundFile1">音ファイル:</label>
-                <input type="file" id="soundFile1" name="soundFile" accept=".mp3, .wav" required><br>
-            </div>
-        </div>
-
-        <button type="button" id="addSound">音を追加</button>
-        <button type="submit">生成</button>
-    </form>
-
-    <h2>生成されたJSON:</h2>
-    <pre id="jsonOutput"></pre>
-
-    <button id="downloadBtn" style="display: none;">ダウンロード</button>
-
-    <script src="scripts.js"></script>
+    <h1>BANLIST</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ユーザー名</th>
+                <th>報告者</th>
+                <th>DISCORD / MINECRAFT / 共通</th>
+                <th>処罰</th>
+                <th>場所</th>
+                <th>内容</th>
+                <th>被害者</th>
+                <th>備考</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ユーザー1</td>
+                <td>報告者1</td>
+                <td><span class="tag discord">Discord</span></td>
+                <td>1週間BAN</td>
+                <td>サーバーA</td>
+                <td>スパム行為</td>
+                <td>被害者1</td>
+                <td>なし</td>
+            </tr>
+            <tr>
+                <td>ユーザー2</td>
+                <td>報告者2</td>
+                <td><span class="tag minecraft">Minecraft</span></td>
+                <td>永久BAN</td>
+                <td>ワールドB</td>
+                <td>不正ツール使用</td>
+                <td>被害者2</td>
+                <td>備考あり</td>
+            </tr>
+            <!-- 新しいエントリをここに追加 -->
+            <tr>
+                <td>ユーザー3</td>
+                <td>報告者3</td>
+                <td><span class="tag common">共通</span></td>
+                <td>処罰内容</td>
+                <td>場所</td>
+                <td>内容</td>
+                <td>被害者3</td>
+                <td>備考</td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>
